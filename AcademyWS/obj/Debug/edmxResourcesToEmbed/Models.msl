@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="academybdModelStoreContainer" CdmEntityContainer="AcademyContext">
+    <EntitySetMapping Name="Aluno">
+      <EntityTypeMapping TypeName="academybdModel.Aluno">
+        <MappingFragment StoreEntitySet="Aluno">
+          <ScalarProperty Name="cpf" ColumnName="cpf" />
+          <ScalarProperty Name="idAluno" ColumnName="idAluno" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="endereco" ColumnName="endereco" />
+          <ScalarProperty Name="municipio" ColumnName="municipio" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="telefone" ColumnName="telefone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="Matricula_idMatricula" ColumnName="Matricula_idMatricula" />
+          <ScalarProperty Name="Nota_idNota" ColumnName="Nota_idNota" />
+          <ScalarProperty Name="senha" ColumnName="senha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Avaliacao">
+      <EntityTypeMapping TypeName="academybdModel.Avaliacao">
+        <MappingFragment StoreEntitySet="Avaliacao">
+          <ScalarProperty Name="idAvaliacao" ColumnName="idAvaliacao" />
+          <ScalarProperty Name="descricao" ColumnName="descricao" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="Nota_idNota" ColumnName="Nota_idNota" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Curso">
+      <EntityTypeMapping TypeName="academybdModel.Curso">
+        <MappingFragment StoreEntitySet="Curso">
+          <ScalarProperty Name="idcurso" ColumnName="idcurso" />
+          <ScalarProperty Name="descricao" ColumnName="descricao" />
+          <ScalarProperty Name="ano_mes" ColumnName="ano_mes" />
+          <ScalarProperty Name="Avaliacao_idAvaliacao" ColumnName="Avaliacao_idAvaliacao" />
+          <ScalarProperty Name="Matricula_idMatricula" ColumnName="Matricula_idMatricula" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Matricula">
+      <EntityTypeMapping TypeName="academybdModel.Matricula">
+        <MappingFragment StoreEntitySet="Matricula">
+          <ScalarProperty Name="idMatricula" ColumnName="idMatricula" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nota">
+      <EntityTypeMapping TypeName="academybdModel.Nota">
+        <MappingFragment StoreEntitySet="Nota">
+          <ScalarProperty Name="idNota" ColumnName="idNota" />
+          <ScalarProperty Name="nota1" ColumnName="nota" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

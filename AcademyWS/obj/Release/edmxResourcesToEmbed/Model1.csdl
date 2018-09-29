@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AcademyWs.Models.Connections.ConnBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="cpf" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="idAluno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="endereco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="municipio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="estado" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="telefone" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Matricula_idMatricula" Type="Int32" />
+    <Property Name="Nota_idNota" Type="Int32" />
+    <Property Name="senha" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Matricula" Relationship="Self.FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula" FromRole="Aluno" ToRole="Matricula" />
+    <NavigationProperty Name="Nota" Relationship="Self.FK_dbo_Aluno_dbo_Nota_Nota_idNota" FromRole="Aluno" ToRole="Nota" />
+  </EntityType>
+  <EntityType Name="Avaliacao">
+    <Key>
+      <PropertyRef Name="idAvaliacao" />
+    </Key>
+    <Property Name="idAvaliacao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Nota_idNota" Type="Int32" />
+    <NavigationProperty Name="Nota" Relationship="Self.FK_dbo_Avaliacao_dbo_Nota_Nota_idNota" FromRole="Avaliacao" ToRole="Nota" />
+    <NavigationProperty Name="Curso" Relationship="Self.FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao" FromRole="Avaliacao" ToRole="Curso" />
+  </EntityType>
+  <EntityType Name="Curso">
+    <Key>
+      <PropertyRef Name="idcurso" />
+    </Key>
+    <Property Name="idcurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ano_mes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Avaliacao_idAvaliacao" Type="Int32" />
+    <Property Name="Matricula_idMatricula" Type="Int32" />
+    <NavigationProperty Name="Avaliacao" Relationship="Self.FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao" FromRole="Curso" ToRole="Avaliacao" />
+    <NavigationProperty Name="Matricula" Relationship="Self.FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula" FromRole="Curso" ToRole="Matricula" />
+  </EntityType>
+  <EntityType Name="Matricula">
+    <Key>
+      <PropertyRef Name="idMatricula" />
+    </Key>
+    <Property Name="idMatricula" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Aluno" Relationship="Self.FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula" FromRole="Matricula" ToRole="Aluno" />
+    <NavigationProperty Name="Curso" Relationship="Self.FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula" FromRole="Matricula" ToRole="Curso" />
+  </EntityType>
+  <EntityType Name="Nota">
+    <Key>
+      <PropertyRef Name="idNota" />
+    </Key>
+    <Property Name="idNota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nota1" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Aluno" Relationship="Self.FK_dbo_Aluno_dbo_Nota_Nota_idNota" FromRole="Nota" ToRole="Aluno" />
+    <NavigationProperty Name="Avaliacao" Relationship="Self.FK_dbo_Avaliacao_dbo_Nota_Nota_idNota" FromRole="Nota" ToRole="Avaliacao" />
+  </EntityType>
+  <Association Name="FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula">
+    <End Role="Matricula" Type="Self.Matricula" Multiplicity="0..1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matricula">
+        <PropertyRef Name="idMatricula" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="Matricula_idMatricula" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Aluno_dbo_Nota_Nota_idNota">
+    <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nota">
+        <PropertyRef Name="idNota" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="Nota_idNota" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Avaliacao_dbo_Nota_Nota_idNota">
+    <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+    <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nota">
+        <PropertyRef Name="idNota" />
+      </Principal>
+      <Dependent Role="Avaliacao">
+        <PropertyRef Name="Nota_idNota" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao">
+    <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="0..1" />
+    <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Avaliacao">
+        <PropertyRef Name="idAvaliacao" />
+      </Principal>
+      <Dependent Role="Curso">
+        <PropertyRef Name="Avaliacao_idAvaliacao" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula">
+    <End Role="Matricula" Type="Self.Matricula" Multiplicity="0..1" />
+    <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matricula">
+        <PropertyRef Name="idMatricula" />
+      </Principal>
+      <Dependent Role="Curso">
+        <PropertyRef Name="Matricula_idMatricula" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="Aluno" EntityType="Self.Aluno" />
+    <EntitySet Name="Avaliacao" EntityType="Self.Avaliacao" />
+    <EntitySet Name="Curso" EntityType="Self.Curso" />
+    <EntitySet Name="Matricula" EntityType="Self.Matricula" />
+    <EntitySet Name="Nota" EntityType="Self.Nota" />
+    <AssociationSet Name="FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula" Association="Self.FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula">
+      <End Role="Matricula" EntitySet="Matricula" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Aluno_dbo_Nota_Nota_idNota" Association="Self.FK_dbo_Aluno_dbo_Nota_Nota_idNota">
+      <End Role="Nota" EntitySet="Nota" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Avaliacao_dbo_Nota_Nota_idNota" Association="Self.FK_dbo_Avaliacao_dbo_Nota_Nota_idNota">
+      <End Role="Nota" EntitySet="Nota" />
+      <End Role="Avaliacao" EntitySet="Avaliacao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao" Association="Self.FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao">
+      <End Role="Avaliacao" EntitySet="Avaliacao" />
+      <End Role="Curso" EntitySet="Curso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula" Association="Self.FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula">
+      <End Role="Matricula" EntitySet="Matricula" />
+      <End Role="Curso" EntitySet="Curso" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AcademyWs.Models.Connections.ConnBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="cpf" Type="nvarchar" MaxLength="11" Nullable="false" />
+    <Property Name="idAluno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome" Type="nvarchar" MaxLength="50" />
+    <Property Name="endereco" Type="nvarchar" MaxLength="50" />
+    <Property Name="municipio" Type="nvarchar" MaxLength="50" />
+    <Property Name="estado" Type="nvarchar" MaxLength="2" />
+    <Property Name="telefone" Type="nvarchar" MaxLength="14" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Matricula_idMatricula" Type="int" />
+    <Property Name="Nota_idNota" Type="int" />
+    <Property Name="senha" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Avaliacao">
+    <Key>
+      <PropertyRef Name="idAvaliacao" />
+    </Key>
+    <Property Name="idAvaliacao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao" Type="nvarchar(max)" />
+    <Property Name="data" Type="datetime" Nullable="false" />
+    <Property Name="Nota_idNota" Type="int" />
+  </EntityType>
+  <EntityType Name="Curso">
+    <Key>
+      <PropertyRef Name="idcurso" />
+    </Key>
+    <Property Name="idcurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao" Type="nvarchar(max)" />
+    <Property Name="ano_mes" Type="nvarchar(max)" />
+    <Property Name="Avaliacao_idAvaliacao" Type="int" />
+    <Property Name="Matricula_idMatricula" Type="int" />
+  </EntityType>
+  <EntityType Name="Matricula">
+    <Key>
+      <PropertyRef Name="idMatricula" />
+    </Key>
+    <Property Name="idMatricula" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Nota">
+    <Key>
+      <PropertyRef Name="idNota" />
+    </Key>
+    <Property Name="idNota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nota" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula">
+    <End Role="Matricula" Type="Self.Matricula" Multiplicity="0..1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matricula">
+        <PropertyRef Name="idMatricula" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="Matricula_idMatricula" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Aluno_dbo_Nota_Nota_idNota">
+    <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nota">
+        <PropertyRef Name="idNota" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="Nota_idNota" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Avaliacao_dbo_Nota_Nota_idNota">
+    <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+    <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nota">
+        <PropertyRef Name="idNota" />
+      </Principal>
+      <Dependent Role="Avaliacao">
+        <PropertyRef Name="Nota_idNota" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao">
+    <End Role="Avaliacao" Type="Self.Avaliacao" Multiplicity="0..1" />
+    <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Avaliacao">
+        <PropertyRef Name="idAvaliacao" />
+      </Principal>
+      <Dependent Role="Curso">
+        <PropertyRef Name="Avaliacao_idAvaliacao" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula">
+    <End Role="Matricula" Type="Self.Matricula" Multiplicity="0..1" />
+    <End Role="Curso" Type="Self.Curso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matricula">
+        <PropertyRef Name="idMatricula" />
+      </Principal>
+      <Dependent Role="Curso">
+        <PropertyRef Name="Matricula_idMatricula" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AcademyWsModelsConnectionsConnBDModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Aluno" EntityType="Self.Aluno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Avaliacao" EntityType="Self.Avaliacao" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Matricula" EntityType="Self.Matricula" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Nota" EntityType="Self.Nota" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula" Association="Self.FK_dbo_Aluno_dbo_Matricula_Matricula_idMatricula">
+      <End Role="Matricula" EntitySet="Matricula" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Aluno_dbo_Nota_Nota_idNota" Association="Self.FK_dbo_Aluno_dbo_Nota_Nota_idNota">
+      <End Role="Nota" EntitySet="Nota" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Avaliacao_dbo_Nota_Nota_idNota" Association="Self.FK_dbo_Avaliacao_dbo_Nota_Nota_idNota">
+      <End Role="Nota" EntitySet="Nota" />
+      <End Role="Avaliacao" EntitySet="Avaliacao" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao" Association="Self.FK_dbo_Curso_dbo_Avaliacao_Avaliacao_idAvaliacao">
+      <End Role="Avaliacao" EntitySet="Avaliacao" />
+      <End Role="Curso" EntitySet="Curso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula" Association="Self.FK_dbo_Curso_dbo_Matricula_Matricula_idMatricula">
+      <End Role="Matricula" EntitySet="Matricula" />
+      <End Role="Curso" EntitySet="Curso" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

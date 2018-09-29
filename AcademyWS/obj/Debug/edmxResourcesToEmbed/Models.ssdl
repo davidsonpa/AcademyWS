@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="academybdModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="cpf" Type="nvarchar" MaxLength="11" Nullable="false" />
+    <Property Name="idAluno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome" Type="nvarchar" MaxLength="50" />
+    <Property Name="endereco" Type="nvarchar" MaxLength="50" />
+    <Property Name="municipio" Type="nvarchar" MaxLength="50" />
+    <Property Name="estado" Type="nvarchar" MaxLength="2" />
+    <Property Name="telefone" Type="nvarchar" MaxLength="14" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Matricula_idMatricula" Type="int" />
+    <Property Name="Nota_idNota" Type="int" />
+    <Property Name="senha" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'AcademyBD.academy.Avaliacao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Avaliacao">
+    <Key>
+      <PropertyRef Name="idAvaliacao" />
+      <PropertyRef Name="data" />
+    </Key>
+    <Property Name="idAvaliacao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao" Type="nvarchar(max)" />
+    <Property Name="data" Type="datetime" Nullable="false" />
+    <Property Name="Nota_idNota" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'AcademyBD.academy.Curso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Curso">
+    <Key>
+      <PropertyRef Name="idcurso" />
+    </Key>
+    <Property Name="idcurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descricao" Type="nvarchar(max)" />
+    <Property Name="ano_mes" Type="nvarchar(max)" />
+    <Property Name="Avaliacao_idAvaliacao" Type="int" />
+    <Property Name="Matricula_idMatricula" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'AcademyBD.academy.Matricula' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Matricula">
+    <Key>
+      <PropertyRef Name="idMatricula" />
+      <PropertyRef Name="Data" />
+    </Key>
+    <Property Name="idMatricula" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'AcademyBD.academy.Nota' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Nota">
+    <Key>
+      <PropertyRef Name="idNota" />
+      <PropertyRef Name="nota" />
+    </Key>
+    <Property Name="idNota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nota" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="academybdModelStoreContainer">
+    <EntitySet Name="Aluno" EntityType="Self.Aluno" Schema="academy" store:Type="Tables" />
+    <EntitySet Name="Avaliacao" EntityType="Self.Avaliacao" store:Type="Tables" store:Schema="academy">
+      <DefiningQuery>SELECT 
+    [Avaliacao].[idAvaliacao] AS [idAvaliacao], 
+    [Avaliacao].[descricao] AS [descricao], 
+    [Avaliacao].[data] AS [data], 
+    [Avaliacao].[Nota_idNota] AS [Nota_idNota]
+    FROM [academy].[Avaliacao] AS [Avaliacao]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Curso" EntityType="Self.Curso" store:Type="Tables" store:Schema="academy">
+      <DefiningQuery>SELECT 
+    [Curso].[idcurso] AS [idcurso], 
+    [Curso].[descricao] AS [descricao], 
+    [Curso].[ano_mes] AS [ano_mes], 
+    [Curso].[Avaliacao_idAvaliacao] AS [Avaliacao_idAvaliacao], 
+    [Curso].[Matricula_idMatricula] AS [Matricula_idMatricula]
+    FROM [academy].[Curso] AS [Curso]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Matricula" EntityType="Self.Matricula" store:Type="Tables" store:Schema="academy">
+      <DefiningQuery>SELECT 
+    [Matricula].[idMatricula] AS [idMatricula], 
+    [Matricula].[Data] AS [Data]
+    FROM [academy].[Matricula] AS [Matricula]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Nota" EntityType="Self.Nota" store:Type="Tables" store:Schema="academy">
+      <DefiningQuery>SELECT 
+    [Nota].[idNota] AS [idNota], 
+    [Nota].[nota] AS [nota]
+    FROM [academy].[Nota] AS [Nota]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
